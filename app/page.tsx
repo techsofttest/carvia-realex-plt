@@ -9,8 +9,7 @@ import { Process } from "@/components/home/Process";
 import { Products } from "@/components/home/Products";
 import { WhyChooseUs } from "@/components/home/WhyChooseUs";
 import { Testimonials } from "@/components/home/Testimonials";
-// import { Partners } from "@/components/home/Partners";
-import { Footer } from "@/components/global/Footer";
+import {AboutPage} from "@/components/home/aboutPage";
 import { IconGlobe, IconShield, IconTrendingUp, IconPackage, IconArrowRight } from "@/components/ui/Icons";
 interface TestimonialItem {
   image: string ;
@@ -38,10 +37,16 @@ interface ProductResponse {
   };
   hero: {
     title: string;
+    sub_title: string;
     content: string;
     image: string;
   }[];
   about: {
+    title: string;
+    content: string;
+    image: string;
+  };
+  page: {
     title: string;
     content: string;
     image: string;
@@ -125,6 +130,7 @@ export default async function Home() {
       />
       <main className="relative z-10">
         <Hero hero={data?.hero ?? [] } />
+        <AboutPage page={data?.page}/>
         <Products product={data?.product ?? []} />
         <Stats stat={data?.stat ??[]} />
         <About about={data?.about} />

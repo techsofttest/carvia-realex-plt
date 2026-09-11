@@ -48,17 +48,22 @@ export function AboutValues({ value }: ValueDetail) {
         </div>
 
         <StaggerChildren>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="flex flex-wrap justify-center gap-8">
             {value?.detail.map((v, i) => {
               const IconComponent = iconMap[v.icon] || IconPackage;
 
               return (
-                <StaggerItem key={i} className="bg-white p-8 border border-gray-100 hover:shadow-lg transition-all duration-300">
+                <StaggerItem
+                  key={i}
+                  className="w-full md:w-[calc(50%-1rem)] lg:w-[calc(25%-1.5rem)] bg-white p-8 border border-gray-100 hover:shadow-lg transition-all duration-300"
+                >
                   <div className="mb-5 inline-block p-3 bg-brand-accent/5">
                     <IconComponent className="w-6 h-6" />
                   </div>
                   <h3 className="text-lg font-bold text-[#011842] mb-3">{v.title}</h3>
-                  <p className="text-[#011842]/75 text-sm leading-relaxed">{v.description}</p>
+                  <p className="text-[#011842]/75 text-sm leading-relaxed">
+                    {v.description}
+                  </p>
                 </StaggerItem>
               );
             })}

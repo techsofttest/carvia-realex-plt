@@ -53,7 +53,6 @@ export function WhyChooseUs({ why }: Data) {
         {/* Clean, High-Contrast Grid Cards (No Boxes) */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
           {why?.detail?.map((f, i) => {
-            // Dynamically resolve the component from iconMap, falling back to IconGlobe if not found
             const IconComponent = iconMap[f.icon] || IconGlobe;
 
             return (

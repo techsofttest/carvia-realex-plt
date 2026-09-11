@@ -1,19 +1,8 @@
 import React from "react";
 import { Metadata } from "next";
-
-import { AboutHero } from "@/components/about/AboutHero";
-import { AboutStory } from "@/components/about/AboutStory";
-import { AboutValues } from "@/components/about/AboutValues";
-import { AboutCertifications } from "@/components/about/AboutCertifications";
-import { AboutCTA } from "@/components/about/AboutCTA";
-import { IconGlobe, IconShield, IconTrendingUp, IconPackage } from "@/components/ui/Icons";
-
-const iconMap = {
-  IconGlobe,
-  IconShield,
-  IconTrendingUp,
-  IconPackage,
-};
+import Hero from "@/components/source/hero";
+import Sourcing from "@/components/source/sourcing";
+import Form from "@/components/source/Form";
 interface ProductResponse {
   seo: {
     meta_title: string;
@@ -22,40 +11,27 @@ interface ProductResponse {
   };
   hero: {
     title: string;
-    sub: string
-    image: string;
-  }[];
-  about: {
-    title: string;
-    sub: string;
-    content: string;
+     sub: string;
+    content: string
     image: string;
   };
-  value?: {
+   value?: {
     title: string;
     sub: string;
     detail: {
-      title: string;
-      icon: keyof typeof iconMap;
-      description: string;
-    }[];
+  title: string;
+  icon: string;
+  description: string;
+}[];
   } | undefined;
-  cta?: {
-    title: string;
-    sub: string;
-    content: string;
-    image: string;
-    detail: {
-      title: string;
-    }[];
-  };
+
 }
 
 async function getSEO(): Promise<ProductResponse> {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
-  const res = await fetch(`${baseUrl}/about`, {
-    next: {
+  const res = await fetch(`${baseUrl}/source`, {
+   next: {
       revalidate: 60,
     },
   });
@@ -84,7 +60,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function AboutPage() {
-  let data: ProductResponse | null = null;
+     let data: ProductResponse | null = null;
   try {
     data = await getSEO();
   } catch (error) {
@@ -92,13 +68,12 @@ export default async function AboutPage() {
   }
 
   return (
+     <main className="min-h-screen bg-white text-[#011842] font-sans">
     <div className="flex flex-col w-full font-sans antialiased text-[#011842] bg-white">
-      <AboutHero hero={data?.hero} />
-      <AboutStory about={data?.about} />
-      {/* <AboutCTA /> */}
-      <AboutValues value={data?.value} />
-      <AboutCertifications cta={data?.cta} />
-
+ <Hero hero={data?.hero} />
+      <Sourcing value={data?.value} />
+       <Form />
     </div>
+    </main>
   );
 }

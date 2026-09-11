@@ -11,7 +11,9 @@ const navLinks = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
   { label: "Products", href: "/products" },
-  { label: "Testimonials", href: "/testimonials" },
+  { label: "Sourcing From India", href: "/source" },
+  { label: "Export Services", href: "/service" },
+  { label: "Why Us", href: "/why" },
   { label: "Contact", href: "/contact" },
 ];
 
