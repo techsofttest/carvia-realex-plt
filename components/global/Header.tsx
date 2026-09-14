@@ -23,7 +23,7 @@ interface ProductItem {
 }
 
 interface CategoryGroup {
-  category: string;
+  category:  {slug:string; name:string};
   products: ProductItem[];
 }
 
@@ -110,7 +110,7 @@ export function Header({ categories = [] }: HeaderProps) {
                             return (
                               <div key={idx} className="flex-1 flex flex-col">
                                 <h4 className="text-[14px] font-semibold text-[#011842] mb-4 tracking-widest border-b-2 border-gray-100 pb-3">
-                                  {categoryName}
+                                  {categoryName.name}
                                 </h4>
                                 <ul className="flex flex-col gap-1 mb-6 flex-1">
                                   {categoryProducts.map((p) => (
@@ -128,7 +128,7 @@ export function Header({ categories = [] }: HeaderProps) {
                                   ))}
                                 </ul>
                                 <Link
-                                  href={`/products?category=${encodeURIComponent(categoryName)}`}
+                                  href={`/products/${categoryName.slug}`}
                                   className="group/btn inline-flex items-center mt-auto text-[11px] font-bold uppercase tracking-widest text-[#1b64b3] hover:text-[#011842] transition-colors gap-1.5 pt-2"
                                 >
                                   View More

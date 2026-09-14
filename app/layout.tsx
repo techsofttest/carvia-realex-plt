@@ -6,7 +6,7 @@ import { Footer } from "@/components/global/Footer";
 import WhatsAppButton from "@/components/ui/WhatsAppButton";
 interface ProductResponse {
   categories:{
-    category: string;
+    category:  {slug:string; name:string};
     products: {id:string; name:string}[];
   }[];
   contact:{

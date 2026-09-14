@@ -7,7 +7,7 @@ import { IconArrowRight } from "@/components/ui/Icons";
 import { BlurReveal } from "@/components/ui/ScrollReveal";
 
 interface CategoryItem {
-  category: string;
+  category:  {slug:string; name:string};
 }
 
 interface ContactInfo {
@@ -119,7 +119,7 @@ export function Footer({ categories = [], contact = {}, cta }: FooterProps) {
                 <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-[#011842] mb-6">Export Categories</h4>
                 <ul className="flex flex-col gap-3">
                   {categories.map((cat, index) => (
-                    <li key={index}><a href={`/products?category=${encodeURIComponent(cat.category)}`} className="text-[#011842]/90 text-sm hover:text-brand-accent transition-colors">{cat.category}</a></li>
+                    <li key={index}><a href={`/products/${cat.category.slug}`} className="text-[#011842]/90 text-sm hover:text-brand-accent transition-colors">{cat.category.name}</a></li>
                   ))}
                   <li><a href="/products" className="text-[#011842]/90 text-sm hover:text-brand-accent transition-colors">More Category</a></li>
                 </ul>
