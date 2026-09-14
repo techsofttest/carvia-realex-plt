@@ -276,9 +276,11 @@ export function ProductCatalog({
       /*
        * Category filter
        */
-      const matchesCategory =
-        selectedCategory === "all" ||
-        product.categorySlug === selectedCategory;
+     const matchesCategory =
+  !selectedCategory ||
+  selectedCategory === "all" ||
+  selectedCategory === "all-categories" ||
+  product.categorySlug === selectedCategory;
 
       /*
        * Search filter

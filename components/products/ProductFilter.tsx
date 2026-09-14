@@ -35,7 +35,7 @@ export function ProductFilter({
     .filter((cat): cat is CategoryDetails => Boolean(cat && cat.title));
 
   const allCategories = [
-    { title: "All Categories", slug: "all" },
+    { title: "All Categories", slug: "all-categories" },
     ...categoryList.map((cat) => ({
       title: cat.title,
       slug: cat.slug || cat.title.toLowerCase().replace(/\s+/g, "-"),

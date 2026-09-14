@@ -16,6 +16,7 @@ interface ContactInfo {
   instagram?: string;
   email?: string;
   address?: string;
+  whatsapp?: string;
 }
 interface ctaData {
   title: string;
@@ -27,9 +28,9 @@ interface FooterProps {
   contact?: ContactInfo;
   cta?: ctaData;
 }
-const href = [{ name: "About Us", link: "/about" }, { name: "Testimony", link: "/testimony" }, { name: "Contact", link: "/contact" },  { label: "Sourcing From India", href: "/source" },
-  { label: "Export Services", href: "/service" },
-  { label: "Why Us", href: "/why" },]
+const href = [{ name: "About Us", link: "/about" }, { name: "Testimony", link: "/testimony" }, { name: "Contact", link: "/contact" },  { name: "Sourcing From India", href: "/source" },
+  { name: "Export Services", href: "/service" },
+  { name: "Why Us", href: "/why" },]
 export function Footer({ categories = [], contact = {}, cta }: FooterProps) {
   return (
     <footer id="footer" className="relative w-full text-white pt-16 lg:pt-20 pb-8 overflow-hidden z-10">

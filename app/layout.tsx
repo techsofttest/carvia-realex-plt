@@ -3,6 +3,7 @@ import { Outfit } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/global/Header";
 import { Footer } from "@/components/global/Footer";
+import WhatsAppButton from "@/components/ui/WhatsAppButton";
 interface ProductResponse {
   categories:{
     category: string;
@@ -14,6 +15,7 @@ instagram: string;
 linkedin: string;
 email: string;
 twitter: string;
+whatsapp:string;
 },
   cta:{
     title: string;
@@ -57,7 +59,9 @@ export default async function RootLayout({
     <html lang="en" className={`${outfit.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <Header categories={data.categories} />
+        <WhatsAppButton whatsapp={data.contact.whatsapp} />
         {children}
+          
         <Footer categories={data.categories} contact={data.contact} cta={data.cta} />
       </body>
     </html>

@@ -59,6 +59,7 @@ interface ProductResponse {
   };
   product:{
     title: string;
+    slug: string;
     image: string;
     content:string[];
   }[];

@@ -9,6 +9,7 @@ import { BlurReveal } from "@/components/ui/ScrollReveal";
 interface Data{
   product:{
     title: string;
+    slug: string;
     image: string;
     content: string[];
   }[];
@@ -76,7 +77,7 @@ export function Products({product}:Data) {
                           </ul>
                         </div>
                         <Button
-                          href={`/products?category=${encodeURIComponent(cat.title)}`}
+                          href={`/products/${cat.slug}`}
                           variant="primary"
                           size="sm"
                           className="self-start"
