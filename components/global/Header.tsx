@@ -162,7 +162,7 @@ export function Header({ categories = [] }: HeaderProps) {
           </nav>
 
           <div className="flex items-center gap-4">
-            <Button href="/contact#contact" variant="primary" className="hidden lg:inline-flex">
+            <Button href="/contact#contact" variant="primary" className="hidden xl:inline-flex">
               Get a Quote <IconArrowRight className="w-4 h-4" />
             </Button>
             <button onClick={() => setMenuOpen(!menuOpen)} className={`lg:hidden p-2 cursor-pointer ${showSolidHeader ? "text-[#011842]" : "text-white"}`}>

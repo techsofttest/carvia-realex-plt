@@ -10,6 +10,7 @@ import { EnquirySuccessModal } from "./EnquirySuccessModal";
 interface Product {
   id: string;
   slug: string;
+  subslug: string;
   category: string;
   image: string;
   name: string;

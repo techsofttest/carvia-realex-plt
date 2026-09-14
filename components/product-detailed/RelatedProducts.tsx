@@ -3,6 +3,7 @@ import { ProductCard } from "@/components/products/ProductCard";
 interface Product {
   id: string;
   slug: string;
+  subslug: string;
   category: string;
   image: string;
   name: string;

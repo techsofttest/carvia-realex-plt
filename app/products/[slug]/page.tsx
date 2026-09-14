@@ -1,36 +1,28 @@
-import React from "react";
-import { notFound } from "next/navigation";
+import React, { Suspense } from "react";
+import { ProductCatalog } from "@/components/products/ProductCatalog";
 import { Metadata } from "next";
-import { WhyChooseUs } from "@/components/home/WhyChooseUs";
-import { ProductBreadcrumb } from "@/components/product-detailed/ProductBreadcrumb";
-import { ProductGallery } from "@/components/product-detailed/ProductGallery";
-import { ProductSpecs } from "@/components/product-detailed/ProductSpecs";
-import { ProductFaqAccordion } from "@/components/product-detailed/ProductFaqAccordion";
-import { ProductMainCta } from "@/components/product-detailed/ProductMainCta";
-import { RelatedProducts } from "@/components/product-detailed/RelatedProducts";
-import { ProductStickyCta } from "@/components/product-detailed/ProductStickyCta";
-import { IconGlobe, IconShield, IconTrendingUp, IconPackage, IconArrowRight } from "@/components/ui/Icons";
 
-interface Product {
-  id: string;
+interface ProductItem {
   slug: string;
+  subslug: string;
   category: string;
   image: string;
   name: string;
   spec: string;
   origin: string;
   packing: string;
-  content: string;
-  imgs: string[];
 }
 
-const iconMap = {
-  IconGlobe,
-  IconShield,
-  IconTrendingUp,
-  IconPackage,
-  IconArrowRight
-};
+interface CategoryData {
+  category: {
+    title: string;
+    content: string;
+    meta_title: string;
+    meta_key: string;
+    meta_desc: string;
+  };
+  products: ProductItem[];
+}
 
 interface ProductResponse {
   seo: {
@@ -38,187 +30,103 @@ interface ProductResponse {
     meta_key: string;
     meta_desc: string;
   };
-  product: Product;
-  related_products: Product[];
-  faq: {
-    title: string;
-    detail: {
+  category?: {
       title: string;
-      description: string;
-    }[];
+  slug?: string;
+  content?: string;
+    meta_title: string;
+    meta_key: string;
+    meta_desc: string;
   };
-  why: {
-    title: string;
-    detail: {
-      title: string;
-      icon: keyof typeof iconMap;
-      description: string;
-    }[];
-  };
+  product: CategoryData[];
 }
 
 interface PageProps {
   params: Promise<{
-    slug: string;
+    slug?: string;
   }>;
+  searchParams: Promise<{ category?: string }>;
 }
 
-async function getProduct(slug: string): Promise<ProductResponse> {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+async function getSEO(slug?: string): Promise<ProductResponse> {
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "";
+  const endpoint = slug ? `${baseUrl}/product/${slug}` : `${baseUrl}/product`;
 
-  if (!baseUrl) {
-    throw new Error("NEXT_PUBLIC_API_URL is not configured");
-  }
-
-  const res = await fetch(`${baseUrl}/product/${slug}`, {
+  const res = await fetch(endpoint, {
     next: {
       revalidate: 60,
     },
   });
 
   if (!res.ok) {
-    if (res.status === 404) {
-      notFound();
-    }
-
     throw new Error("Failed to fetch product data");
   }
 
   return res.json();
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: PageProps): Promise<Metadata> {
   try {
-    const { slug } = await params;
-    const data = await getProduct(slug);
+    const resolvedParams = await params;
+    const resolvedSearchParams = await searchParams;
+
+    const data = await getSEO(resolvedParams.slug);
+    const selectedCatTitle = resolvedSearchParams.category;
+
+    const matchedCategoryGroup = data?.product?.find(
+      (c) => c.category?.title === selectedCatTitle
+    );
+
+    const categorySEO = matchedCategoryGroup?.category;
 
     return {
-      title: data?.seo?.meta_title ?? "Testimonials",
-      description: data?.seo?.meta_desc ?? "",
-      keywords: data?.seo?.meta_key ?? "",
+      title: categorySEO?.meta_title || data?.seo?.meta_title || "Export Product Catalog",
+      description: categorySEO?.meta_desc || data?.seo?.meta_desc || "",
+      keywords: categorySEO?.meta_key || data?.seo?.meta_key || "",
     };
   } catch (error) {
     return {
-      title: "Testimonials",
+      title: "Export Product Catalog",
     };
   }
 }
 
-export default async function ProductDetailPage({ params }: PageProps) {
-  const { slug } = await params;
+export default async function ProductsPage({ params }: PageProps) {
+  const resolvedParams = await params;
+  let data: ProductResponse | null = null;
 
-  // Fetch product from Laravel API
-  const data = await getProduct(slug);
-
-  const product = data.product;
-
-  if (!product) {
-    notFound();
+  try {
+    data = await getSEO(resolvedParams.slug);
+  } catch (error) {
+    console.error("Error fetching product page data:", error);
   }
 
-  // Related products
-  const relatedProducts = data.related_products
-    .filter((p) => p.id !== product.id)
-    .sort((a, b) => {
-      if (
-        a.category === product.category &&
-        b.category !== product.category
-      ) {
-        return -1;
-      }
-
-      if (
-        a.category !== product.category &&
-        b.category === product.category
-      ) {
-        return 1;
-      }
-
-      return 0;
-    })
-    .slice(0, 4);
-
   return (
-    <main className="w-full min-h-screen bg-white pt-24 lg:pt-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-20">
-
-        {/* Breadcrumb */}
-        <ProductBreadcrumb
-          category={product.category}
-          name={product.name}
+    <main className="w-full bg-white">
+      <Suspense fallback={<CatalogSkeleton />}>
+        <ProductCatalog
+          categories={data?.product ?? []}
+          defaultSeo={data?.seo}
+          categorySlug={resolvedParams.slug}
         />
-
-        {/* Two Column Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start mb-16">
-
-          {/* Left - Product Gallery */}
-          <ProductGallery
-            image={product.image}
-            imgs={product.imgs}
-            name={product.name}
-          />
-
-          {/* Right - Product Information */}
-          <div className="flex flex-col h-full justify-between">
-            <div>
-
-              {/* Category */}
-              <span className="inline-block text-xs font-bold uppercase tracking-widest text-[#1b64b3] mb-3">
-                {product.category}
-              </span>
-
-              {/* Product Name */}
-              <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 tracking-tight leading-tight mb-4">
-                {product.name}
-              </h1>
-
-              {/* Description */}
-              <div
-                className="text-sm text-gray-700 leading-relaxed mb-4"
-                dangerouslySetInnerHTML={{
-                  __html: product.content || "",
-                }}
-              />
-
-              {/* Specifications */}
-              <ProductSpecs
-                spec={product.spec}
-                origin={product.origin}
-                packing={product.packing}
-              />
-
-              {/* FAQ */}
-              <ProductFaqAccordion faqs={data?.faq} />
-
-              {/* Main CTA */}
-              <ProductMainCta
-                productName={product.slug}
-                productId={product.id}
-              />
-
-            </div>
-          </div>
-
-        </div>
-
-        {/* Related Products */}
-        <RelatedProducts
-          relatedProducts={relatedProducts}
-        />
-
-      </div>
-
-      {/* Why Choose Us */}
-      <div className="border-t border-gray-200">
-        <WhyChooseUs why={data?.why} />
-      </div>
-
-      {/* Sticky CTA */}
-      <ProductStickyCta
-        productName={product.name}
-        productId={product.slug}
-      />
-
+      </Suspense>
     </main>
+  );
+}
+
+function CatalogSkeleton() {
+  return (
+    <div className="min-h-screen pt-24 max-w-7xl mx-auto px-6 lg:px-8 animate-pulse">
+      <div className="h-8 bg-gray-200 rounded w-1/4 mb-4" />
+      <div className="h-4 bg-gray-100 rounded w-1/2 mb-12" />
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+        <div className="h-96 bg-gray-100 rounded-lg" />
+        <div className="lg:col-span-4 grid grid-cols-2 md:grid-cols-4 gap-6">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div key={i} className="h-64 bg-gray-100 rounded-lg" />
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }

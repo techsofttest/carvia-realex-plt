@@ -10,6 +10,7 @@ interface ProductCatalogProps {
  
     product: { 
       slug:string; 
+      subslug:string;
       category:string;
       image:string;
       name:string
@@ -22,7 +23,7 @@ interface ProductCatalogProps {
 export function ProductCard({ product }: ProductCatalogProps) {
   return (
     <Link
-      href={`/products/${product.slug}`}
+      href={`/products/${product.slug}/${product.subslug}`}
       className="flex flex-col group cursor-pointer h-full"
     >
       {/* Image Area (Flat, No rounded corners) */}
@@ -85,7 +86,7 @@ export function ProductCard({ product }: ProductCatalogProps) {
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            window.location.href = `/enquiry/${product.slug}`;
+            window.location.href = `/enquiry/${product.slug}/${product.subslug}`;
           }}
           variant="primary"
           size="sm"

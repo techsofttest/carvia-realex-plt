@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { ProductCatalog } from "@/components/products/ProductCatalog";
+import { Products } from "./product";
 import { Metadata } from "next";
 
 interface ProductResponse {
@@ -8,16 +8,11 @@ interface ProductResponse {
     meta_key: string;
     meta_desc: string;
   };
-   categories:{
-    category: string;
-    products: {
-      slug:string; 
-      category:string;
-      image:string;
-      name:string
-      spec:string;
-      origin:string;
-      packing:string}[];
+  categories:{
+     slug: string;
+    title: string;
+    image: string;
+    content: string[];
   }[];
 }
 
@@ -31,42 +26,50 @@ async function getSEO(): Promise<ProductResponse> {
   });
 
   if (!res.ok) {
-    throw new Error("Failed to fetch testimony data");
+    throw new Error("Failed to fetch product data");
   }
 
   return res.json();
 }
 
-export async function generateMetadata(): Promise<Metadata> {
+type Props = {
+  searchParams: Promise<{ category?: string }>;
+};
+
+export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
   try {
     const data = await getSEO();
+    const resolvedParams = await searchParams;
+    const selectedCatTitle = resolvedParams.category;
+
+
 
     return {
-      title: data?.seo?.meta_title ?? "Testimonials",
-      description: data?.seo?.meta_desc ?? "",
-      keywords: data?.seo?.meta_key ?? "",
+      title:  data?.seo?.meta_title || "Export Product Catalog",
+      description:  data?.seo?.meta_desc || "",
+      keywords:  data?.seo?.meta_key || "",
     };
   } catch (error) {
     return {
-      title: "Testimonials",
+      title: "Export Product Catalog",
     };
   }
 }
 
 export default async function ProductsPage() {
-    let data: ProductResponse | null = null;
+  let data: ProductResponse | null = null;
   try {
     data = await getSEO();
   } catch (error) {
-    console.error("Error fetching testimony page data:", error);
+    console.error("Error fetching product page data:", error);
   }
 
   return (
     <main className="w-full bg-white">
       <Suspense fallback={<div className="min-h-screen pt-24 text-center">Loading...</div>}>
-        <ProductCatalog categories={data?.categories ?? []} />
+        <Products     product={data?.categories ?? []} 
+        />
       </Suspense>
     </main>
   );
 }
-

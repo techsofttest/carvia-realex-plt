@@ -14,6 +14,7 @@ export function ProductSpecs({ spec, origin, packing }: ProductSpecsProps) {
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 border-b border-gray-200 pb-4">
+        {spec && ( 
         <div className="space-y-1">
           <span className="text-xs font-bold text-gray-500 uppercase tracking-wider flex items-center gap-2">
             <svg className="w-4 h-4 text-[#1b64b3]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -22,8 +23,8 @@ export function ProductSpecs({ spec, origin, packing }: ProductSpecsProps) {
             Spec
           </span>
           <p className="text-sm text-[#011842] font-semibold">{spec}</p>
-        </div>
-
+        </div>)}
+           {origin && ( 
         <div className="space-y-1">
           <span className="text-xs font-bold text-gray-500 uppercase tracking-wider flex items-center gap-2">
             <svg className="w-4 h-4 text-[#1b64b3]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -33,8 +34,8 @@ export function ProductSpecs({ spec, origin, packing }: ProductSpecsProps) {
             Origin
           </span>
           <p className="text-sm text-gray-900 font-semibold">{origin}</p>
-        </div>
-
+        </div>)}
+          {packing && (    
         <div className="space-y-1">
           <span className="text-xs font-bold text-gray-500 uppercase tracking-wider flex items-center gap-2">
             <svg className="w-4 h-4 text-[#1b64b3]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -43,7 +44,7 @@ export function ProductSpecs({ spec, origin, packing }: ProductSpecsProps) {
             Packing
           </span>
           <p className="text-sm text-gray-900 font-semibold">{packing}</p>
-        </div>
+        </div>)}
       </div>
     </div>
   );
