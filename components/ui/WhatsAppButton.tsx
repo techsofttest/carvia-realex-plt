@@ -4,11 +4,10 @@ import React from "react";
 
 
 export default function WhatsAppButton({whatsapp}:{whatsapp:any}) {
-  const whatsappUrl = `whatsapp`;
 
   return (
     <a
-      href={whatsappUrl}
+      href={`https://wa.me/${whatsapp}`}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat with us on WhatsApp"
