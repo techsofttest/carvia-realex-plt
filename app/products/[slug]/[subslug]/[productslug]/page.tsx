@@ -3,14 +3,13 @@ import { notFound } from "next/navigation";
 import { Metadata } from "next";
 
 import { WhyChooseUs } from "@/components/home/WhyChooseUs";
-import { ProductBreadcrumb } from "@/components/product-detailed/ProductBreadcrumb";
+import { ProductBreadcrumb } from "@/components/subproduct/ProductBreadcrumb";
 import { ProductGallery } from "@/components/product-detailed/ProductGallery";
 import { ProductSpecs } from "@/components/product-detailed/ProductSpecs";
 import { ProductFaqAccordion } from "@/components/product-detailed/ProductFaqAccordion";
-import { ProductMainCta } from "@/components/product-detailed/ProductMainCta";
-import { RelatedProducts } from "@/components/product-detailed/RelatedProducts";
-import { ProductStickyCta } from "@/components/product-detailed/ProductStickyCta";
-import { ProductCard } from "@/components/product-detailed/ProductCard";
+import { ProductMainCta } from "@/components/subproduct/ProductMainCta";
+import { RelatedProducts } from "@/components/subproduct/RelatedProducts";
+import { ProductStickyCta } from "@/components/subproduct/ProductStickyCta";
 
 import {
   IconGlobe,
@@ -24,7 +23,9 @@ interface Product {
   id: string;
   slug: string;
   subslug: string;
+  productslug: string;
   category: string;
+  product: string;
   image: string;
   name: string;
   spec: string;
@@ -33,14 +34,7 @@ interface Product {
   content: string;
   imgs: string[];
 }
-interface CategoryItem {
-    slug: string;
-  subslug: string;
-  productslug: string;
-  name: string;
-  image: string;
-  content: string;
-}
+
 const iconMap = {
   IconGlobe,
   IconShield,
@@ -57,7 +51,7 @@ interface ProductResponse {
   };
 
   product: Product;
-  subProducts: CategoryItem[];
+
   related_products: Product[];
 
   faq: {
@@ -82,12 +76,13 @@ interface PageProps {
   params: Promise<{
     slug: string;
     subslug: string;
+    productslug: string;
   }>;
 }
 
 async function getProduct(
   slug: string,
-  subslug: string
+  subslug: string, productslug: string
 ): Promise<ProductResponse> {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -96,7 +91,7 @@ async function getProduct(
   }
 
   const res = await fetch(
-    `${baseUrl}/product/${slug}/${subslug}`,
+    `${baseUrl}/product/${slug}/${subslug}/${productslug}`,
     {
       next: {
         revalidate: 60,
@@ -119,9 +114,9 @@ export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   try {
-    const { slug, subslug } = await params;
+    const { slug, subslug ,productslug} = await params;
 
-    const data = await getProduct(slug, subslug);
+    const data = await getProduct(slug, subslug, productslug);
 
     return {
       title: data?.seo?.meta_title ?? data?.product?.name ?? "Product",
@@ -138,10 +133,10 @@ export async function generateMetadata({
 export default async function ProductDetailPage({
   params,
 }: PageProps) {
-  const { slug, subslug } = await params;
+  const { slug, subslug ,productslug} = await params;
 
   // Fetch product using both category slug and product subslug
-  const data = await getProduct(slug, subslug);
+  const data = await getProduct(slug, subslug,productslug);
 
   const product = data.product;
 
@@ -177,8 +172,11 @@ export default async function ProductDetailPage({
 
         {/* Breadcrumb */}
         <ProductBreadcrumb
-          category={product.slug}
-          name={product.name}
+          category={product.category}
+          slug={product.slug}
+          name={product.product}
+          subslug={product.subslug}
+          product={product.name}
         />
 
         {/* Two Column Layout */}
@@ -214,11 +212,11 @@ export default async function ProductDetailPage({
               />
 
               {/* Specifications */}
-              <ProductSpecs
+              {/* <ProductSpecs
                 spec={product.spec}
                 origin={product.origin}
                 packing={product.packing}
-              />
+              /> */}
 
               {/* FAQ */}
               <ProductFaqAccordion faqs={data?.faq} />
@@ -227,15 +225,12 @@ export default async function ProductDetailPage({
               <ProductMainCta
                 productName={product.slug}
                 productId={product.subslug}
+                product={product.productslug}
               />
 
             </div>
           </div>
         </div>
-        
-       {data.subProducts?.length > 0 && (
-  <ProductCard product={data.subProducts} />
-)}
         {/* Related Products */}
         <RelatedProducts
           relatedProducts={relatedProducts}
@@ -251,7 +246,10 @@ export default async function ProductDetailPage({
       <ProductStickyCta
         productName={product.name}
         productId={product.slug}
+        productslug={product.subslug}
+        product={product.productslug}
       />
+      
     </main>
   );
 }

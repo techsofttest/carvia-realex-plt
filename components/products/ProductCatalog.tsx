@@ -245,57 +245,44 @@ export function ProductCatalog({
    *
    * Keep the category information attached to every product.
    */
-  const allProducts = useMemo(() => {
-    return categories.flatMap((group) => {
-      const categoryTitle = group.category?.title || "";
+ const allProducts = useMemo(() => {
+  return categories.flatMap((group) => {
+    const categorySlug = group.category?.slug;
 
-      const categorySlug =
-        group.category?.slug ||
-        categoryTitle
-          .toLowerCase()
-          .trim()
-          .replace(/&/g, "and")
-          .replace(/[^a-z0-9]+/g, "-")
-          .replace(/^-|-$/g, "");
+    if (!categorySlug) {
+      return [];
+    }
 
-      return (group.products || []).map((product) => ({
-        ...product,
-        categorySlug,
-        categoryTitle,
-      }));
-    });
-  }, [categories]);
-
+    return (group.products || []).map((product) => ({
+      ...product,
+      categorySlug,
+      categoryTitle: group.category?.title || "",
+    }));
+  });
+}, [categories]);
   /*
    * FILTER PRODUCTS
    */
-  const filteredProducts = useMemo(() => {
-    const query = searchQuery.trim().toLowerCase();
+ const filteredProducts = useMemo(() => {
+  const query = searchQuery.trim().toLowerCase();
 
-    return allProducts.filter((product) => {
-      /*
-       * Category filter
-       */
-     const matchesCategory =
-  !selectedCategory ||
-  selectedCategory === "all" ||
-  selectedCategory === "all-categories" ||
-  product.categorySlug === selectedCategory;
+  return allProducts.filter((product) => {
 
-      /*
-       * Search filter
-       */
-      const matchesSearch =
-        !query ||
-        product.name?.toLowerCase().includes(query) ||
-        product.spec?.toLowerCase().includes(query) ||
-        product.origin?.toLowerCase().includes(query) ||
-        product.packing?.toLowerCase().includes(query);
+    const matchesCategory =
+      selectedCategory === "all" ||
+      selectedCategory === "all-categories" ||
+      product.categorySlug === selectedCategory;
 
-      return matchesCategory && matchesSearch;
-    });
-  }, [allProducts, selectedCategory, searchQuery]);
+    const matchesSearch =
+      !query ||
+      product.name?.toLowerCase().includes(query) ||
+      product.spec?.toLowerCase().includes(query) ||
+      product.origin?.toLowerCase().includes(query) ||
+      product.packing?.toLowerCase().includes(query);
 
+    return matchesCategory && matchesSearch;
+  });
+}, [allProducts, selectedCategory, searchQuery]);
   /*
    * Visible products
    */
@@ -368,9 +355,9 @@ export function ProductCatalog({
               <>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-10">
 
-                  {displayedProducts.map((product) => (
+                  {displayedProducts.map((product,idx) => (
                     <ProductCard
-                      key={product.slug}
+                      key={idx}
                       product={product}
                     />
                   ))}

@@ -9,9 +9,11 @@ import { BlurReveal } from "@/components/ui/ScrollReveal";
 
 interface CategoryItem {
   slug: string;
-  title: string;
+  subslug: string;
+  productslug: string;
+  name: string;
   image: string;
-  content: string[];
+  content: string;
 }
 
 interface Data {
@@ -38,7 +40,7 @@ export function ProductCard({ product }: Data) {
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <BlurReveal className="text-center max-w-2xl mx-auto mb-16">
           <h2 className="text-3xl lg:text-4xl font-bold text-[#011842] leading-tight">
-            Our Products by Category
+            Our Product
           </h2>
         </BlurReveal>
 
@@ -69,7 +71,7 @@ export function ProductCard({ product }: Data) {
                       <div className="relative h-72 w-full overflow-hidden">
                         <Image
                           src={cat.image}
-                          alt={cat.title}
+                          alt={cat.name}
                           fill
                           sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 25vw"
                           className="object-cover transition-transform duration-500 group-hover:scale-110"
@@ -77,30 +79,16 @@ export function ProductCard({ product }: Data) {
                       </div>
                       <div className="py-4 flex flex-col flex-1 justify-between">
                         <div>
-                          <h3 className="text-lg font-bold text-[#011842] mb-3">{cat.title}</h3>
-                          <ul className="flex flex-wrap gap-2 mb-6">
-                            {cat.content.slice(0, 4).map((item, i) => (
-                              <li
-                                key={i}
-                                className="text-[12px] font-normal tracking-wide text-[#011842] bg-[#011842]/5 px-2.5 py-1"
-                              >
-                                {item}
-                              </li>
-                            ))}
-                            {cat.content.length > 4 && (
-                              <li className="text-[12px] font-semibold text-[#011842]/40 px-2.5 py-1">
-                                +{cat.content.length - 4} more
-                              </li>
-                            )}
-                          </ul>
+                          <h3 className="text-lg font-bold text-[#011842] mb-3">{cat.name}</h3>
+                          
                         </div>
                         <Button
-                          href={`/products?category=${encodeURIComponent(cat.title)}`}
+                          href={`/products/${cat.slug}/${cat.subslug}/${cat.productslug}`}
                           variant="primary"
                           size="sm"
                           className="self-start"
                         >
-                          View All Products
+                          View Product
                         </Button>
                       </div>
                     </div>
