@@ -116,7 +116,7 @@ export function Header({ categories = [] }: HeaderProps) {
                                   {categoryProducts.map((p) => (
                                     <li key={p.id}>
                                       <Link
-                                        href={`/products/${p.id}`}
+                                        href={`/products/${categoryName.slug}/${p.id}`}
                                         className="text-sm text-gray-700 hover:text-[#1b64b3] font-normal flex items-start gap-2 transition-all p-2 -mx-2 rounded-lg hover:bg-gray-50/80"
                                       >
                                         <svg className="w-[18px] h-[18px] text-[#1b64b3] shrink-0 mt-[2px] opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
