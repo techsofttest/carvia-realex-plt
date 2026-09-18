@@ -46,7 +46,7 @@ export function ProductCard({ product }: ProductCatalogProps) {
       <h3 className="text-[16px] font-semibold text-gray-900 leading-tight mb-2 tracking-tight group-hover:text-brand-accent transition-colors">
         {product.name} {product.sub && <span className="text-[12px] font-bold tracking-wider group-hover:text-brand-accent text-gray-900 mb-1"> [{product.sub}]</span>}
       </h3>
-      {/* Technical Specs List */}
+      {/* Technical Specs List */}{product.spec && product.origin && product.packing &&
       <div className="border-t border-gray-200 pt-3 mt-3 mb-5">
         <div className="grid grid-cols-3 gap-4 text-[11px] leading-snug">
           <div>
@@ -78,7 +78,7 @@ export function ProductCard({ product }: ProductCatalogProps) {
             <span className="text-gray-900 font-semibold line-clamp-3">{product.packing}</span>
           </div>
         </div>
-      </div>
+      </div>}
 
       {/* Request Enquiry Button */}
       <div className="mt-auto pt-2">

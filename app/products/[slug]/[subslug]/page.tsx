@@ -204,11 +204,11 @@ export default async function ProductDetailPage({
               />
 
               {/* Specifications */}
-              <ProductSpecs
+              {product.spec && product.origin && product.packing &&<ProductSpecs
                 spec={product.spec}
                 origin={product.origin}
                 packing={product.packing}
-              />
+              />}
 
               {/* FAQ */}
               <ProductFaqAccordion faqs={data?.faq} />
