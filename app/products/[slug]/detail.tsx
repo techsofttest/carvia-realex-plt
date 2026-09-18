@@ -9,6 +9,7 @@ interface Product {
       category:string;
       image:string;
       name:string
+      sub:string
       spec:string;
       origin:string;
       packing:string

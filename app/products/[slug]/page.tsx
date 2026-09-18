@@ -8,6 +8,7 @@ interface ProductItem {
   category: string;
   image: string;
   name: string;
+  sub:string; 
   spec: string;
   origin: string;
   packing: string;
@@ -53,9 +54,7 @@ async function getSEO(slug?: string): Promise<ProductResponse> {
   const endpoint = slug ? `${baseUrl}/product/${slug}` : `${baseUrl}/product`;
 
   const res = await fetch(endpoint, {
-    next: {
-      revalidate: 60,
-    },
+       cache: "no-store",
   });
 
   if (!res.ok) {

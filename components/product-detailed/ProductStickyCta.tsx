@@ -6,10 +6,11 @@ import Link from "next/link";
 interface ProductStickyCtaProps {
   productName: string;
   productId: string;
+  product: string;
   targetId?: string;
 }
 
-export function ProductStickyCta({ productName, productId, targetId = "main-cta" }: ProductStickyCtaProps) {
+export function ProductStickyCta({ productName, productId, product, targetId = "main-cta" }: ProductStickyCtaProps) {
   const [show, setShow] = useState(true);
 
   useEffect(() => {
@@ -40,7 +41,7 @@ export function ProductStickyCta({ productName, productId, targetId = "main-cta"
       </div>
       <div className="h-8 w-px bg-gray-200 hidden sm:block"></div>
       <Link
-        href={`/enquiry/${productId}`}
+        href={`/enquiry/${productId}/${product}`}
         className="inline-flex items-center justify-center bg-brand-accent hover:bg-brand-mid text-white px-4 sm:px-6 h-10 rounded-full font-bold text-xs uppercase tracking-wider transition-all duration-300 gap-2 shadow hover:scale-105 whitespace-nowrap"
       >
         Inquire Now

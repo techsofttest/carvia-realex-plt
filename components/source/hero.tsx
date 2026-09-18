@@ -27,9 +27,6 @@ export default function Hero({hero}:{hero:any}) {
 
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <div className="max-w-3xl">
-            <span className="mb-6 inline-block border-l-2 border-[#80BDFF] pl-3 text-xs font-semibold uppercase tracking-[0.18em] text-[#80BDFF]">
-              India Sourcing Support
-            </span>
             <h1 className="mb-6 text-3xl font-semibold leading-[1.08] tracking-tight sm:text-4xl lg:text-6xl">
              {hero?.title}
             </h1>

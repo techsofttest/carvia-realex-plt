@@ -29,9 +29,7 @@ async function getSEO(): Promise<ProductResponse> {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
   const res = await fetch(`${baseUrl}/service`, {
-   next: {
-      revalidate: 60,
-    },
+      cache: "no-store",
   });
 
   if (!res.ok) {

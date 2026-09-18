@@ -14,6 +14,7 @@ interface Product {
   category: string;
   image: string;
   name: string;
+  sub: string;
   spec: string;
   origin: string;
   packing: string;
@@ -53,9 +54,7 @@ async function getProduct(slug: string,subslug:string): Promise<ProductResponse>
   }
 
   const res = await fetch(`${baseUrl}/product/${slug}/${subslug}`, {
-    next: {
-      revalidate: 60,
-    },
+     cache: "no-store",
   });
 
   if (!res.ok) {

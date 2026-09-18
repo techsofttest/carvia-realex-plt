@@ -27,19 +27,12 @@ interface Product {
   category: string;
   image: string;
   name: string;
+  sub:string;
   spec: string;
   origin: string;
   packing: string;
   content: string;
   imgs: string[];
-}
-interface CategoryItem {
-    slug: string;
-  subslug: string;
-  productslug: string;
-  name: string;
-  image: string;
-  content: string;
 }
 const iconMap = {
   IconGlobe,
@@ -57,7 +50,6 @@ interface ProductResponse {
   };
 
   product: Product;
-  subProducts: CategoryItem[];
   related_products: Product[];
 
   faq: {
@@ -98,9 +90,7 @@ async function getProduct(
   const res = await fetch(
     `${baseUrl}/product/${slug}/${subslug}`,
     {
-      next: {
-        revalidate: 60,
-      },
+        cache: "no-store",
     }
   );
 
@@ -203,7 +193,7 @@ export default async function ProductDetailPage({
               {/* Product Name */}
               <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 tracking-tight leading-tight mb-4">
                 {product.name}
-              </h1>
+              </h1> <span className="text-sm font-bold tracking-wider uppercase text-gray-900 mb-3"> [{product.sub}]</span>
 
               {/* Description */}
               <div
@@ -233,9 +223,6 @@ export default async function ProductDetailPage({
           </div>
         </div>
         
-       {data.subProducts?.length > 0 && (
-  <ProductCard product={data.subProducts} />
-)}
         {/* Related Products */}
         <RelatedProducts
           relatedProducts={relatedProducts}
@@ -251,6 +238,7 @@ export default async function ProductDetailPage({
       <ProductStickyCta
         productName={product.name}
         productId={product.slug}
+        product={product.subslug}
       />
     </main>
   );
