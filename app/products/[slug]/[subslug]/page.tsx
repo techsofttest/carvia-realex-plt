@@ -193,7 +193,7 @@ export default async function ProductDetailPage({
               {/* Product Name */}
               <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 tracking-tight leading-tight mb-4">
                 {product.name}
-              </h1> <span className="text-sm font-bold tracking-wider uppercase text-gray-900 mb-3"> [{product.sub}]</span>
+              </h1> {product.sub &&<span className="text-sm font-bold tracking-wider uppercase text-gray-900 mb-3"> [{product.sub}]</span>}
 
               {/* Description */}
               <div
