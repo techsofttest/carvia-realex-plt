@@ -8,15 +8,16 @@ import { ProductFilter } from "./ProductFilter";
 import { Button } from "@/components/ui/Button";
 
 interface ProductItem {
-  slug: string;
-  subslug: string;
-  category: string;
-  image: string;
-  name: string;
-  spec: string;
-  origin: string;
-  packing: string;
-}
+      slug:string; 
+      subslug:string;
+      category:string;
+      image:string;
+      sub:string; 
+      name:string
+      spec:string;
+      origin:string;
+      packing:string
+ }
 
 interface CategoryDetails {
   title: string;

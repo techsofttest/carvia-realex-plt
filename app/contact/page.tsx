@@ -36,15 +36,18 @@ open: string;
   option: string;
 }[];
   } | undefined;
+marque?: {
+    detail: {
+  title: string;
+}[];
+  } 
 };
 
 async function getSEO(): Promise<ProductResponse> {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
   const res = await fetch(`${baseUrl}/contact`, {
-   next: {
-      revalidate: 60,
-    },
+   cache: "no-store",
   });
 
   if (!res.ok) {
@@ -100,7 +103,7 @@ export default async function ContactPage() {
       </Suspense>
 
       {/* 4. Contact Strip Marquee (White Background) */}
-      <ContactMarquee />
+      <ContactMarquee marque={data?.marque?.detail ?? []} />
     </div>
   );
 }

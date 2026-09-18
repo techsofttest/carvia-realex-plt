@@ -1,7 +1,7 @@
 import React from "react";
 import { Metadata } from "next";
 import WhyPage  from "./why";
-
+import { PageBanner } from "@/components/global/PageBanner";
 interface ProductResponse {
   seo: {
     meta_title: string;
@@ -22,9 +22,7 @@ async function getSEO(): Promise<ProductResponse> {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
   const res = await fetch(`${baseUrl}/why`, {
-    next: {
-      revalidate: 60,
-    },
+      cache: "no-store",
   });
 
   if (!res.ok) {
@@ -60,6 +58,11 @@ export default async function AboutPage() {
 
   return (
     <div className="flex flex-col w-full font-sans antialiased text-[#011842] bg-white">
+      <PageBanner
+              title="Why Choose"
+              highlightText=" Carvia Realex"
+              bgImage="/banner/b5.png"
+            />
       <WhyPage value={data?.value} />
 
     </div>

@@ -101,38 +101,19 @@ export function Header({ categories = [] }: HeaderProps) {
 
                     {/* Mega Menu Dropdown */}
                     <div className="fixed top-[80px] left-0 w-full opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
-                      <div className="bg-white shadow-2xl border-t border-gray-100 relative overflow-hidden">
-                        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-10 flex gap-10">
+                        <div className="bg-white shadow-2xl border-t border-gray-100 relative overflow-hidden max-h-[80vh] overflow-y-auto">
+                          <div className="max-w-7xl mx-auto px-6 lg:px-8 py-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-8 gap-y-10">
                           {categories.map((catGroup, idx) => {
                             const categoryName = catGroup?.category || "";
-                            const categoryProducts = (catGroup?.products || []).slice(0, 5);
 
                             return (
                               <div key={idx} className="flex-1 flex flex-col">
-                                <h4 className="text-[14px] font-semibold text-[#011842] mb-4 tracking-widest border-b-2 border-gray-100 pb-3">
+                                
+                                <Link
+                                  href={`/products/${categoryName.slug}`}>
+                                 <h4 className="text-[14px] font-semibold text-[#011842] mb-4 tracking-widest  border-b-2 border-gray-100 pb-3">
                                   {categoryName.name}
                                 </h4>
-                                <ul className="flex flex-col gap-1 mb-6 flex-1">
-                                  {categoryProducts.map((p) => (
-                                    <li key={p.id}>
-                                      <Link
-                                        href={`/products/${categoryName.slug}/${p.id}`}
-                                        className="text-sm text-gray-700 hover:text-[#1b64b3] font-normal flex items-start gap-2 transition-all p-2 -mx-2 rounded-lg hover:bg-gray-50/80"
-                                      >
-                                        <svg className="w-[18px] h-[18px] text-[#1b64b3] shrink-0 mt-[2px] opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                                          <path strokeLinecap="round" strokeLinejoin="round" d="M7 5v9a2 2 0 002 2h6" />
-                                        </svg>
-                                        <span className="leading-snug">{p.name}</span>
-                                      </Link>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <Link
-                                  href={`/products/${categoryName.slug}`}
-                                  className="group/btn inline-flex items-center mt-auto text-[11px] font-bold uppercase tracking-widest text-[#1b64b3] hover:text-[#011842] transition-colors gap-1.5 pt-2"
-                                >
-                                  View More
-                                  <IconArrowRight className="w-3.5 h-3.5 transition-transform group-hover/btn:translate-x-1" />
                                 </Link>
                               </div>
                             );
