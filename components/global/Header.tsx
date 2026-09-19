@@ -165,9 +165,11 @@ export function Header({ categories = [] }: HeaderProps) {
           </nav>
 
           <div className="flex items-center gap-4">
-            <Button href="/contact#contact" variant="primary" className="hidden xl:inline-flex">
-              Get a Quote <IconArrowRight className="w-4 h-4" />
-            </Button>
+            <div className="hidden lg:block">
+              <Button href="/contact#contact" variant="primary">
+                Get a Quote <IconArrowRight className="w-4 h-4" />
+              </Button>
+            </div>
             <button onClick={() => setMenuOpen(!menuOpen)} className={`lg:hidden p-2 cursor-pointer ${showSolidHeader ? "text-[#011842]" : "text-white"}`}>
               {menuOpen ? <IconX className="w-6 h-6" /> : <IconMenu className="w-6 h-6" />}
             </button>
