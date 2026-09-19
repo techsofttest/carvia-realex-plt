@@ -8,6 +8,11 @@ interface ProductResponse {
     meta_key: string;
     meta_desc: string;
   };
+  hero?: {
+    title?: string;
+    sub?: string;
+    image:string;
+  };
   value?: {
     title: string;
     sub: string;
@@ -59,9 +64,9 @@ export default async function AboutPage() {
   return (
     <div className="flex flex-col w-full font-sans antialiased text-[#011842] bg-white">
       <PageBanner
-              title="Why Choose"
-              highlightText=" Carvia Realex"
-              bgImage="/banner/b5.png"
+              title={data?.hero?.title}
+              highlightText={data?.hero?.sub}
+              bgImage={data?.hero?.image}
             />
       <WhyPage value={data?.value} />
 

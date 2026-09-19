@@ -26,14 +26,14 @@ export default function Hero({hero}:{hero:any}) {
       </div></div>
 
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-          <div className="max-w-3xl">
-            <h1 className="mb-6 text-3xl font-semibold leading-[1.08] tracking-tight sm:text-4xl lg:text-6xl">
+          <div className="max-w-5xl">
+            <h1 className="mb-6 text-3xl font-semibold leading-[1.08] tracking-tight sm:text-4xl lg:text-3xl">
              {hero?.title}
             </h1>
-            <p className="mb-6 text-xl font-medium leading-snug text-[#80BDFF] sm:text-2xl">
+            <p className="mb-6 text-3xl font-medium leading-snug text-[#80BDFF] sm:text-1xl">
              {hero?.sub}
             </p>
-            <div className="mb-8 max-w-2xl text-base leading-relaxed text-white/75 sm:text-lg" dangerouslySetInnerHTML={{__html:hero?.content }} />
+            <div className="mb-8 max-w-4xl text-base leading-relaxed text-white/75 sm:text-lg" dangerouslySetInnerHTML={{__html:hero?.content }} />
            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch sm:items-center">
                        <Button href="#requirement-form" variant="outline" className="text-white border-white/40 hover:bg-white/10">
                          Send Your Requirement
