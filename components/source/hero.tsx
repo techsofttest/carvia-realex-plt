@@ -10,7 +10,7 @@ export default function Hero({hero}:{hero:any}) {
 
   return (
     
-      <section className="relative overflow-hidden bg-[#011842] pb-20 pt-36 text-white lg:pb-28 lg:pt-44">
+      <section className="relative overflow-hidden bg-[#011842] pb-20 pt-36 text-white lg:pb-18 lg:pt-36">
       <div className="absolute inset-0 pointer-events-none">
         {/* Fallback Color and Glow Layer */}<div className="absolute inset-0 z-0">
 

@@ -22,6 +22,16 @@ interface ProductResponse {
   description: string;
 }[];
   } | undefined;
+     why?: {
+    title: string;
+    sub: string;
+    content: string;
+    detail: {
+  title: string;
+  icon: string;
+  description: string;
+}[];
+  } | undefined;
 
 }
 
@@ -65,7 +75,7 @@ export default async function AboutPage() {
 
   return (
     <div className="flex flex-col w-full font-sans antialiased text-[#011842] bg-white">
-      <Service hero={data?.hero} value={data?.value} />
+      <Service hero={data?.hero} value={data?.value} why={data?.why} />
     </div>
   );
 }

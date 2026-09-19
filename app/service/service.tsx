@@ -32,8 +32,18 @@ interface ProductResponse {
   description: string;
 }[];
   } | undefined;
+    why?: {
+    title: string;
+    sub: string;
+    content: string;
+    detail: {
+  title: string;
+  icon: string;
+  description: string;
+}[];
+  } | undefined;
 }
-export default function ExportServicesPage({hero,value}:ProductResponse) {
+export default function ExportServicesPage({hero,value,why}:ProductResponse) {
        const iconMap: Record<string, LucideIcon> = {
     Search,
     Users,
@@ -51,7 +61,7 @@ export default function ExportServicesPage({hero,value}:ProductResponse) {
         <main className="min-h-screen bg-white text-[#011842] font-sans">
 
             {/* HERO SECTION */}
-            <section className="relative overflow-hidden bg-[#011842] pb-20 pt-36 text-white lg:pb-28 lg:pt-44">
+            <section className="relative overflow-hidden bg-[#011842] pb-20 pt-36 text-white lg:pb-20 lg:pt-44">
                 
                      <div className="absolute inset-0 pointer-events-none">
                         {/* Fallback Color and Glow Layer */}<div className="absolute inset-0 z-0">
@@ -124,26 +134,15 @@ export default function ExportServicesPage({hero,value}:ProductResponse) {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
                         <div>
-                            <span className="text-[#478FDD] text-xs font-bold uppercase tracking-wider">
-                                Reliable Global Trade Support
-                            </span>
-                            <h2 className="mb-6 mt-3 text-3xl font-semibold leading-tight text-[#011842] sm:text-4xl">
-                                Why International Buyers Partner With Carvia Realex
-                            </h2>
-                            <p className="text-slate-600 leading-relaxed mb-8">
-                                Navigating overseas procurement can be complex. We simplify your cross-border supply chain by providing dedicated local oversight in India, ensuring your standards, deadlines, and compliance needs are consistently met.
-                            </p>
+                            <span className="text-[#478FDD] text-xs font-bold uppercase tracking-wider">{why?.sub}</span>
+                            <h2 className="mb-6 mt-3 text-3xl font-semibold leading-tight text-[#011842] sm:text-4xl">{why?.title}</h2>
+                            <div className="text-slate-600 leading-relaxed mb-8" dangerouslySetInnerHTML={{__html:why?.content ?? ""}} />
 
                             <div className="space-y-4">
-                                {[
-                                    "Verified and vetted supplier network across India",
-                                    "Transparent commercial terms and structured quotation processes",
-                                    "Strict quality inspection & sample approval protocols",
-                                    "Complete compliance with destination country import standards",
-                                ].map((item, idx) => (
+                                {why?.detail.map((item, idx) => (
                                     <div key={idx} className="flex items-start space-x-3">
                                         <CheckCircle2 className="w-5 h-5 text-[#478FDD] mt-0.5 flex-shrink-0" />
-                                        <span className="text-slate-700 text-sm font-medium">{item}</span>
+                                        <span className="text-slate-700 text-sm font-medium">{item.title}</span>
                                     </div>
                                 ))}
                             </div>
